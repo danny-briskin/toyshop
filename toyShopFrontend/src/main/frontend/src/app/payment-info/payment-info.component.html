@@ -1,0 +1,40 @@
+<mat-card *ngIf="payment" style="width: 50%">
+  <form class="example-form">
+    <mat-card-header>
+      <mat-card-title>payment-info {{payment.paymentId}}</mat-card-title>
+    </mat-card-header>
+    <mat-form-field>
+      <mat-label>paymentId</mat-label>
+      <input matInput value={{payment.paymentId}} disabled name="paymentId">
+      <mat-hint>paymentId</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>paymentAmount</mat-label>
+      <input matInput [(ngModel)]="payment.paymentAmount" placeholder="Payment Amount"
+             name="paymentAmount">
+      <mat-hint>paymentAmount</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>paymentDate</mat-label>
+      <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="payment.paymentDate" name="paymentDatePicker">
+      <mat-hint>paymentDate</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #myDatepicker></mat-datepicker>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Payment channel</mat-label>
+      <mat-hint>Payment channel</mat-hint>
+      <input matInput [(ngModel)]="payment.channel" placeholder="Payment channel" name="channel">
+    </mat-form-field>
+    <mat-card-actions>
+      <button mat-button (click)="goBack()">Back</button>
+      <button mat-button (click)="updatePayment()">Update</button>
+      <button mat-button (click)="deletePayment()">Delete</button>
+    </mat-card-actions>
+
+  </form>
+</mat-card>
+

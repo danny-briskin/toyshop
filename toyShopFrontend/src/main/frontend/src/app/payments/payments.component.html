@@ -1,0 +1,98 @@
+<div class="mat-elevation-z8">
+  <button mat-stroked-button color="accent" (click)=toggleNewPaymentDisplay()>Enter new payment
+  </button>
+  <button mat-stroked-button (click)=toggleCustomerDisplayOff()>Close customer view</button>
+
+  <div *ngIf="isNewPaymentShow" class="example-container">
+    <mat-card *ngIf="newPayment" style="width: 50%">
+      <form>
+        <mat-form-field>
+          <label>
+            <input matInput [(ngModel)]="newPayment.customerId" placeholder="Enter customerId"
+                   name="customerId">
+          </label>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <label>
+            <input matInput [(ngModel)]="newPayment.paymentAmount"
+                   placeholder="Enter Payment paymentAmount" name="paymentAmount">
+          </label>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <label>
+            <input matInput [(ngModel)]="newPayment.channel" placeholder="Enter Payment channel"
+                   name="channel">
+          </label>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button (click)="createPayment(newPayment)">Create Payment</button>
+      </form>
+    </mat-card>
+  </div>
+  <mat-card *ngIf="isCustomerShow && currentCustomer" style="width: 50%">
+    <mat-card-header>
+      <mat-card-title>Customer Info</mat-card-title>
+    </mat-card-header>
+    <mat-grid-list cols="2" rowHeight="12:1">
+      <mat-grid-tile class="mat-grid-tile-caption">Name</mat-grid-tile>
+      <mat-grid-tile>{{currentCustomer.customerName}}</mat-grid-tile>
+      <mat-grid-tile class="mat-grid-tile-caption">Activated</mat-grid-tile>
+      <mat-grid-tile>{{currentCustomer.customerActivated}}</mat-grid-tile>
+      <mat-grid-tile class="mat-grid-tile-caption">Deactivated</mat-grid-tile>
+      <mat-grid-tile>{{currentCustomer.customerDeactivated}}</mat-grid-tile>
+      <mat-grid-tile class="mat-grid-tile-caption">Billing address</mat-grid-tile>
+      <mat-grid-tile>{{currentCustomer.billingAddress}}</mat-grid-tile>
+      <mat-grid-tile class="mat-grid-tile-caption">Balance</mat-grid-tile>
+      <mat-grid-tile>{{currentCustomer.customerBalance}}</mat-grid-tile>
+    </mat-grid-list>
+  </mat-card>
+  <p id="tableDesc">Payments</p>
+  <table mat-table [dataSource]="dataSource" aria-describedby="tableDesc"
+         matSort matSortActive="paymentDate" matSortDirection="asc">
+
+    <ng-container matColumnDef="paymentId">
+      <th id="paymentIdHeader" mat-header-cell *matHeaderCellDef>paymentId</th>
+      <td mat-cell *matCellDef="let payment">{{payment.paymentId}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="paymentAmount">
+      <th id="paymentAmountHeader" mat-header-cell *matHeaderCellDef>paymentAmount</th>
+      <td mat-cell
+          *matCellDef="let payment">{{payment.paymentAmount}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="paymentDate">
+      <th id="paymentDateHeader" mat-header-cell *matHeaderCellDef>paymentDate</th>
+      <td mat-cell
+          *matCellDef="let payment">{{payment.paymentDate | date}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="channel">
+      <th id="paymentChannelHeader" mat-header-cell *matHeaderCellDef>Channel</th>
+      <td mat-cell
+          *matCellDef="let payment">{{payment.channel}}</td>
+    </ng-container>
+    <ng-container matColumnDef="links">
+      <th id="linksHeader" mat-header-cell *matHeaderCellDef>links</th>
+      <td mat-cell *matCellDef="let payment; let ind = index;">
+        <!--        <a mat-mini-fab color="primary"-->
+        <!--           href="{{payment._links.self.href.replace('{?projection}','')}}">S</a>-->
+        <a mat-stroked-button="accent" routerLink="information/{{payment.paymentId}}"
+           (click)="showInfo(payment,ind)">Payment Info</a>
+        <!--        <a mat-mini-fab color="warn"-->
+        <!--           href="{{payment._links.customer.href.replace('{?projection}','')}}">C</a>-->
+        <button mat-stroked-button color="accent"
+                (click)="toggleCustomerDisplayOn(payment.customerId)">Customer Info
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+

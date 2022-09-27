@@ -1,0 +1,13 @@
+table {
+  width: 100%;
+}
+
+mat-grid-tile {
+  background: #EEEEEE;
+}
+
+.mat-grid-tile-caption {
+  background: #EEEEEE;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
